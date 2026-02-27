@@ -76,7 +76,8 @@ a:hover {
 
 .docs-wrapper {
   width: 80%;
-  height: 60%;
+  height: 80%;
+  overflow-y: scroll;
   /* DOCS STYLING */
 
   & h1 {

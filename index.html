@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +9,31 @@
   <meta name="robots" content="noindex">
   <title>cdn.marti</title>
 </head>
+
 <body class="flex center">
   <div class="flex center col">
     <h1 class="bold">cdn.marti</h1>
-    <h2>easily integrated. <a href="/docs/docs.html">docs.</a></h2>
+    <h2>easily integrated. <a href="/docs/">docs.</a></h2>
   </div>
+  <a id="version" href="" target="_blank"></a>
 </body>
+<script>
+  const version = document.getElementById('version');
+  async function getVersion() {
+    const res = await fetch('https://api.github.com/repos/martidigital/cdn/commits/HEAD');
+    const data = await res.json();
+    version.innerText = `version ${data.sha.slice(0,7)}`;
+    version.href = `https://github.com/martidigital/cdn/commit/${data.sha}`;
+  }
+
+  getVersion();
+</script>
+<style scoped>
+  #version {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    opacity: 0.25;
+  }
+</style>
 </html>
