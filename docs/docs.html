@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css">
+  <title>cdn.marti | docs</title>
+</head>
+
+<body class="flex">
+  <div class="sidebar flex center-vert col">
+    <div class="header">
+      <span class="logo bold">cdn.marti</span><span>&nbsp;docs</span>
+    </div>
+    <div class="nav flex col">
+      <h3>modules</h3>
+      <div class="flex col nav-items" id="nav"></div>
+    </div>
+  </div>
+  <slot class="content" id="content"></slot>
+</body>
+<script>
+const nav = document.getElementById('nav');
+const main = document.getElementById('content');
+async function loadNav() {
+  const links = await fetch('./modules/index.json').then(res => res.json());
+
+  links.forEach(link => {
+    const el = document.createElement('a');
+    el.classList.add('nav-link');
+    el.innerText = link;
+    el.onclick = () => loadPage(link);
+    nav.appendChild(el);
+  });
+}
+
+async function loadPage(name) {
+  main.innerHTML = await fetch(`./modules/${name}.html`).then(r => r.text());
+}
+
+loadNav();
+</script>
+</html>
+<style scoped>
+  .sidebar {
+    width: 20%;
+    height: calc(100% - 32px);
+    float: left;
+    padding-top: 32px;
+    background-color: var(--black);
+    color: var(--white);
+
+    & .nav {
+      width: 90%;
+    }
+  }
+
+  .header {
+    height: fit-content;
+    width: 80%;
+    margin-bottom: 32px;
+  }
+
+  .nav-items {
+    margin-left: 24px;
+    margin-top: 4px;
+  }
+
+  .nav-link {
+    color: var(--white);
+    cursor: pointer;
+  }
+
+
+  .logo {
+    font-size: 50px;
+  }
+
+  .content {
+    float: right;
+    width: 80%;
+  }
+</style>

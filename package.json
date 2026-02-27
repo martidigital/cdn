@@ -1,0 +1,24 @@
+{
+  "name": "cdn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "inject_css.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "node build-index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martidigital/cdn.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/martidigital/cdn/issues"
+  },
+  "homepage": "https://github.com/martidigital/cdn#readme"
+}
