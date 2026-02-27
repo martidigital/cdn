@@ -27,7 +27,7 @@ h4 {
 
 h1 {
   font-weight: normal;
-  font-size: 164px;
+  font-size: 12vh;
 }
 
 h2 {
@@ -44,6 +44,13 @@ a:hover {
   opacity: 1;
   text-decoration: underline;
 }
+
+  #version {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    opacity: 0.25;
+  }
 
 .bold {
   font-weight: 900;
