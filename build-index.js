@@ -1,8 +1,8 @@
-// build-index.js (run before deploying)
-import { readdirSync, writeFileSync } from 'fs';
+// build-index.js
+const { readdirSync, writeFileSync } = require('fs');
 
 const files = readdirSync('./modules')
-  .filter(f => f.endsWith('.html')) // or .md, whatever you use
+  .filter(f => f.endsWith('.html'))
   .map(f => f.replace('.html', ''));
 
 writeFileSync('./modules/index.json', JSON.stringify(files));
