@@ -11,14 +11,14 @@
 <body class="flex">
   <div class="sidebar flex center-vert col">
     <div class="header">
-      <span class="logo bold">cdn.marti</span><span>&nbsp;docs</span>
+      <span class="logo bold" onclick="document.location.href = '/'">cdn.marti</span><span>&nbsp;docs</span>
     </div>
     <div class="nav flex col">
       <h3>modules</h3>
       <div class="flex col nav-items" id="nav"></div>
     </div>
   </div>
-  <slot class="content" id="content"></slot>
+  <div class="content flex center" id="content"></div>
 </body>
 <script>
 const nav = document.getElementById('nav');
@@ -75,9 +75,11 @@ loadNav();
 
   .logo {
     font-size: 50px;
+    cursor: pointer;
   }
 
   .content {
+    position: relative;
     float: right;
     width: 80%;
   }

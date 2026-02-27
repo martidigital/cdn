@@ -1,11 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>mcdn | inject</title>
 </head>
+
 <body>
-  some description / docs
+  <div class="docs-wrapper flex center-horz col">
+    <h1>customizeIframe</h1>
+    <p>
+      Injects a <code>&lt;style&gt;</code> element into an iframe's document, letting you override
+      third-party styles without touching the host page. Every rule is automatically suffixed with
+      <code>!important</code>, so your overrides win even against deeply-nested vendor defaults.
+      Useful when a service (e.g. HubSpot, Typeform, Intercom) locks visual customization behind
+      a paid plan.
+    </p>
+
+    <h2>Signature</h2>
+    <pre><code>customizeIframe(iframeId, styleElementId)</code></pre>
+
+    <h2>Parameters</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>iframeId</code></td>
+          <td><code>string</code></td>
+          <td>The <code>id</code> of the target <code>&lt;iframe&gt;</code> element.</td>
+        </tr>
+        <tr>
+          <td><code>styleElementId</code></td>
+          <td><code>string</code></td>
+          <td>The <code>id</code> of a <code>&lt;style&gt;</code> or <code>&lt;template&gt;</code> element on the host
+            page whose text content will be injected.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Usage</h2>
+    <p>
+      Define your override styles in a <code>&lt;style&gt;</code> tag on the host page, give it an
+      id, then call <code>customizeIframe</code> with both ids. The function will wait for the
+      iframe to appear in the DOM and finish loading before injecting — no manual timing required.
+    </p>
+    <pre><code>&lt;!-- Your override styles, kept out of the iframe --&gt;
+&lt;style id="hubspot-overrides"&gt;
+  .hs-button {
+    background-color: #000;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+&lt;/style&gt;
+
+&lt;!-- The iframe (may be injected dynamically by a third-party script) --&gt;
+&lt;iframe id="hubspot-form"&gt;&lt;/iframe&gt;
+
+&lt;script src="https://cdn.marti.dev/customizeIframe.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  customizeIframe('hubspot-form', 'hubspot-overrides');
+&lt;/script&gt;</code></pre>
+
+    <p>
+      The injected stylesheet becomes a normal <code>&lt;style&gt;</code> element inside the
+      iframe's <code>&lt;head&gt;</code>. All declarations are rewritten to include
+      <code>!important</code> automatically, so you don't need to add it manually in your source.
+    </p>
+
+    <h2>How it works</h2>
+    <p>
+      Because third-party embeds are often injected into the DOM after your script runs, a plain
+      <code>load</code> event listener on the iframe is unreliable — the element may not exist yet.
+      <code>customizeIframe</code> works around this by attaching a <code>MutationObserver</code>
+      to <code>document.body</code> that watches for the iframe to appear. Once found, the observer
+      disconnects itself and either injects immediately (if the iframe is already loaded) or waits
+      for its <code>load</code> event first.
+    </p>
+
+    <h2>Limitations</h2>
+    <p>
+      Injection requires that the iframe and the host page share the same origin. Cross-origin
+      iframes (e.g. an embed served from a different domain) block <code>contentDocument</code>
+      access as a browser security measure — this function will have no effect on them. Whether a
+      given third-party embed is same-origin depends on how the vendor serves it; some (like
+      HubSpot's inline form embeds) do qualify.
+    </p>
+  </div>
 </body>
+
 </html>
